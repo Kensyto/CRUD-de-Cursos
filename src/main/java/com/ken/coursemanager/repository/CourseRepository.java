@@ -1,6 +1,6 @@
-package com.jules.coursemanager.repository;
+package com.ken.coursemanager.repository;
 
-import com.jules.coursemanager.model.Course;
+import com.ken.coursemanager.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

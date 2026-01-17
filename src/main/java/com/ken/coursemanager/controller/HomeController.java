@@ -1,4 +1,4 @@
-package com.jules.coursemanager.controller;
+package com.ken.coursemanager.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

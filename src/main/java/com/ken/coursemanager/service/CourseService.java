@@ -1,7 +1,7 @@
-package com.jules.coursemanager.service;
+package com.ken.coursemanager.service;
 
-import com.jules.coursemanager.model.Course;
-import com.jules.coursemanager.repository.CourseRepository;
+import com.ken.coursemanager.model.Course;
+import com.ken.coursemanager.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

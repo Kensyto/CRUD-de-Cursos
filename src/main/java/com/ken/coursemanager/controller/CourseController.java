@@ -1,7 +1,7 @@
-package com.jules.coursemanager.controller;
+package com.ken.coursemanager.controller;
 
-import com.jules.coursemanager.model.Course;
-import com.jules.coursemanager.service.CourseService;
+import com.ken.coursemanager.model.Course;
+import com.ken.coursemanager.service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

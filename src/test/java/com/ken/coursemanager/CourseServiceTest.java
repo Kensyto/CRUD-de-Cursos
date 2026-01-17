@@ -1,8 +1,8 @@
-package com.jules.coursemanager;
+package com.ken.coursemanager;
 
-import com.jules.coursemanager.model.Course;
-import com.jules.coursemanager.repository.CourseRepository;
-import com.jules.coursemanager.service.CourseService;
+import com.ken.coursemanager.model.Course;
+import com.ken.coursemanager.repository.CourseRepository;
+import com.ken.coursemanager.service.CourseService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

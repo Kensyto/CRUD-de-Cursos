@@ -1,4 +1,4 @@
-package com.jules.coursemanager;
+package com.ken.coursemanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

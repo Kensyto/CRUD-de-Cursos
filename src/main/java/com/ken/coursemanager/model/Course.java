@@ -1,4 +1,4 @@
-package com.jules.coursemanager.model;
+package com.ken.coursemanager.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

@@ -56,4 +56,4 @@ Para acessar as áreas restritas do sistema (Criar/Editar cursos), utilize as se
 - `src/main/resources/application.properties`: Configurações da aplicação.
 
 ---
-Desenvolvido por **Jules AI**.
+Desenvolvido por **Kensyto**.

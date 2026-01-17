@@ -1,4 +1,4 @@
-package com.jules.coursemanager.config;
+package com.ken.coursemanager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
