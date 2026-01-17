@@ -1,0 +1,8 @@
+target/
+*.log
+.DS_Store
+.mvn/
+mvnw
+mvnw.cmd
+*.class
+/home/jules/verification/

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${course.id == null} ? 'Novo Curso' : 'Editar Curso'">Formulário de Curso</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-6">
+                <a th:href="@{/cursos}" class="text-blue-600 hover:text-blue-800 transition flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Voltar para a lista
+                </a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white" th:text="${course.id == null} ? 'Cadastrar Novo Curso' : 'Editar Curso: ' + ${course.name}">
+                        Formulário de Curso
+                    </h2>
+                </div>
+
+                <form th:action="@{/cursos/save}" th:object="${course}" method="post" class="p-8 space-y-6">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{active}">
+
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Nome do Curso*</label>
+                        <input type="text" th:field="*{name}" id="name"
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                               th:classappend="${#fields.hasErrors('name')} ? 'border-red-500' : 'border-gray-300'"
+                               placeholder="Ex: Spring Boot Masterclass">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="mt-1 text-sm text-red-600">Erro no nome</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="category" class="block text-sm font-semibold text-gray-700 mb-2">Categoria*</label>
+                            <input type="text" th:field="*{category}" id="category"
+                                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                   th:classappend="${#fields.hasErrors('category')} ? 'border-red-500' : 'border-gray-300'"
+                                   placeholder="Ex: Programação">
+                            <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="mt-1 text-sm text-red-600">Erro na categoria</p>
+                        </div>
+
+                        <div>
+                            <label for="teacher" class="block text-sm font-semibold text-gray-700 mb-2">Professor*</label>
+                            <input type="text" th:field="*{teacher}" id="teacher"
+                                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                   th:classappend="${#fields.hasErrors('teacher')} ? 'border-red-500' : 'border-gray-300'"
+                                   placeholder="Ex: João Silva">
+                            <p th:if="${#fields.hasErrors('teacher')}" th:errors="*{teacher}" class="mt-1 text-sm text-red-600">Erro no professor</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center justify-end space-x-4">
+                        <a th:href="@{/cursos}" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-semibold">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition font-semibold">
+                            <i class="fas fa-save mr-2"></i> Salvar Curso
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
