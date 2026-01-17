@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Lista de Cursos</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Cursos Disponíveis</h1>
+            <a th:href="@{/cursos/new}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold shadow transition">
+                <i class="fas fa-plus mr-2"></i> Novo Curso
+            </a>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <form th:action="@{/cursos}" method="get" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome do Curso</label>
+                    <input type="text" name="name" id="name" th:value="${name}" placeholder="Buscar por nome..."
+                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border">
+                </div>
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                    <input type="text" name="category" id="category" th:value="${category}" placeholder="Buscar por categoria..."
+                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border">
+                </div>
+                <div class="flex items-end space-x-2">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition flex-grow">
+                        <i class="fas fa-search mr-2"></i> Filtrar
+                    </button>
+                    <a th:href="@{/cursos}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition">
+                        Limpar
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Course Cards/Table -->
+        <div class="overflow-x-auto bg-white rounded-xl shadow-md">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Curso</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Professor</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr th:each="course : ${courses}" class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-bold text-gray-900" th:text="${course.name}">Nome do Curso</div>
+                            <div class="text-xs text-gray-500" th:text="'Criado em: ' + ${#temporals.format(course.createdAt, 'dd/MM/yyyy HH:mm')}">Data</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800" th:text="${course.category}">
+                                Categoria
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${course.teacher}">
+                            Professor
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button th:onclick="'toggleStatus(' + ${course.id} + ')'"
+                                    th:id="'status-btn-' + ${course.id}"
+                                    th:class="${course.active} ? 'px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800' : 'px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800'"
+                                    th:text="${course.active} ? 'Ativo' : 'Inativo'">
+                                Status
+                            </button>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
+                            <a th:href="@{/cursos/edit/{id}(id=${course.id})}" class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/cursos/delete/{id}(id=${course.id})}"
+                               onclick="return confirm('Tem certeza que deseja excluir este curso?')"
+                               class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(courses)}">
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                            Nenhum curso encontrado.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            async function toggleStatus(courseId) {
+                try {
+                    const response = await fetch(`/cursos/${courseId}/active`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const btn = document.getElementById(`status-btn-${courseId}`);
+                        const isActive = btn.innerText === 'Ativo';
+
+                        if (isActive) {
+                            btn.innerText = 'Inativo';
+                            btn.className = 'px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                        } else {
+                            btn.innerText = 'Ativo';
+                            btn.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                        }
+                    } else {
+                        if (response.status === 403 || response.status === 401) {
+                            alert('Você precisa estar logado para alterar o status.');
+                            window.location.href = '/login';
+                        } else {
+                            alert('Erro ao alterar status.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Erro de conexão.');
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

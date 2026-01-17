@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'Gerenciador de Cursos'">Gerenciador de Cursos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navbar Fragment -->
+    <header th:replace="~{fragments/navbar :: navbar}"></header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <!-- Alert Messages -->
+        <div th:if="${successMessage}" class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 flex justify-between items-center" id="alert-success">
+            <span th:text="${successMessage}">Mensagem de sucesso</span>
+            <button onclick="document.getElementById('alert-success').remove()" class="text-green-700 hover:text-green-900">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div th:if="${errorMessage}" class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 flex justify-between items-center" id="alert-error">
+            <span th:text="${errorMessage}">Mensagem de erro</span>
+            <button onclick="document.getElementById('alert-error').remove()" class="text-red-700 hover:text-red-900">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div layout:fragment="content"></div>
+    </main>
+
+    <!-- Footer Fragment -->
+    <footer th:replace="~{fragments/footer :: footer}"></header>
+
+    <script>
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(() => {
+            const successAlert = document.getElementById('alert-success');
+            if (successAlert) successAlert.style.display = 'none';
+            const errorAlert = document.getElementById('alert-error');
+            if (errorAlert) errorAlert.style.display = 'none';
+        }, 5000);
+    </script>
+</body>
+</html>
